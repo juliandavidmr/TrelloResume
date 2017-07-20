@@ -60,3 +60,4 @@ typings/
 /.next/
 /.idea/
 /out/
+/.idea/vcs.xml

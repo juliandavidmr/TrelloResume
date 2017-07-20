@@ -15,6 +15,10 @@ export function members(data) {
 	return data.members;
 }
 
+export function checklists(data) {
+	return data.checklists;
+}
+
 export function name(data) {
 	return data.name;
 }

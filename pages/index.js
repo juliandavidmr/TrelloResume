@@ -3,22 +3,16 @@ import {deepOrange500} from 'material-ui/styles/colors'
 import getMuiTheme from 'material-ui/styles/getMuiTheme'
 import MuiThemeProvider from 'material-ui/styles/MuiThemeProvider'
 import injectTapEventPlugin from 'react-tap-event-plugin'
-import TextField from 'material-ui/TextField'
 import Head from 'next/head'
 import Drawer from 'material-ui/Drawer';
 import AppBar from 'material-ui/AppBar';
-import RaisedButton from 'material-ui/RaisedButton'
 import TableCheck from '../components/table-check'
-import IconMenu from 'material-ui/IconMenu';
-import IconButton from 'material-ui/IconButton';
 import FontIcon from 'material-ui/FontIcon';
-import NavigationExpandMoreIcon from 'material-ui/svg-icons/navigation/expand-more';
-import MenuItem from 'material-ui/MenuItem';
-import Toggle from 'material-ui/Toggle';
 import {Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle} from 'material-ui/Toolbar';
-import Chips from '../components/chips'
 import TableUsers from '../components/table-users'
-import { members, name } from '../utils/trello'
+import TableCheckList from '../components/table-checklist'
+import {members, name, checklists} from '../utils/trello'
+import Chip from 'material-ui/Chip';
 
 import Paper from 'material-ui/Paper';
 
@@ -30,27 +24,18 @@ if (!process.tapEventInjected) {
 }
 
 const styles = {
-	headline: {
-		fontSize: 24,
-		paddingTop: 16,
-		marginBottom: 12,
-		fontWeight: 400,
-	},
 	footer: {
 		position: 'fixed',
 		bottom: 0,
 		width: '100%'
 	},
+	appbar: {
+		width: '101.9%',
+		margin: '-10px 0px 0px -8px'
+	},
 	chip: {
 		margin: 4,
 	},
-	wrapper: {
-		display: 'flex',
-		flexWrap: 'wrap',
-	},
-	toggle: {
-		margin: '0px 10px 0px 20px'
-	}
 };
 
 const muiTheme = {
@@ -68,15 +53,20 @@ class Main extends Component {
 			open: false,
 			value: 3,
 			inputJson: {},
-			errors: null,
+			errors: '',
 			users: [],
-			name: ''
+			checklists: [],
+			name: '',
+			// Expanded
+			expandedUsers: false,
+			expandedCheckList: false
 		}
 	}
 
 	evaluateState() {
 		this.setState({
 			users: members(this.state.inputJson),
+			checklists: checklists(this.state.inputJson),
 			name: name(this.state.inputJson)
 		})
 	};
@@ -122,43 +112,51 @@ class Main extends Component {
 					<div>
 						<Drawer width={200} openSecondary={true} open={this.state.open}>
 							<AppBar title="Trello"/>
-							<TableCheck />
+							<TableCheck/>
 						</Drawer>
-						<Paper zDepth={5}>
 
-						<Toolbar>
-							<ToolbarGroup firstChild={true}>
-								<Toggle
-									style={styles.toggle}
-									name="deselectOnClickaway"
-									label="Opciones"
-									onToggle={this.handleToggle}
-									defaultToggled={false}
-								/>
-							</ToolbarGroup>
-							<ToolbarGroup>
-								<input type="file" onChange={this.handleChangeInputJson}/>
-							</ToolbarGroup>
-							<ToolbarGroup>
-								<ToolbarTitle text="Opciones"/>
-								<FontIcon className="muidocs-icon-custom-sort"/>
-								<ToolbarSeparator />
-								<IconMenu iconButtonElement={
-									<IconButton touch={true}>
-										<NavigationExpandMoreIcon />
-									</IconButton>
-								}>
-									<MenuItem primaryText="Download"/>
-									<MenuItem primaryText="More Info"/>
-								</IconMenu>
-							</ToolbarGroup>
-						</Toolbar>
+						<AppBar
+							title="Trello resume"
+							iconClassNameRight="muidocs-icon-navigation-expand-more"
+							onClick={this.handleToggle}
+							style={styles.appbar}
+						/>
+
+						<Paper zDepth={3}>
+							<Toolbar>
+								<ToolbarGroup>
+									<input type="file" onChange={this.handleChangeInputJson}/>
+								</ToolbarGroup>
+								<ToolbarGroup>
+									<FontIcon className="muidocs-icon-custom-sort"/>
+									<ToolbarSeparator/>
+									<Chip
+										onRequestDelete={() => alert("No se puede eliminar :P")}
+										style={styles.chip}>
+										{this.state.name}
+									</Chip>
+									<Chip
+										onRequestDelete={() => alert("No se puede eliminar :P")}
+										style={styles.chip}>
+										{this.state.users.length} usuarios
+									</Chip>
+								</ToolbarGroup>
+							</Toolbar>
 						</Paper>
 						<br/>
 						<div>
+
 							<TableUsers
 								users={this.state.users}
 								name={this.state.name}
+								expanded={this.state.expandedUsers}
+								handleExpandChange={() => this.setState({ expandedUsers: !this.state.expandedUsers })}
+							/>
+							<br/>
+							<TableCheckList
+								checklists={this.state.checklists}
+								expanded={this.state.expandedCheckList}
+								handleExpandChange={() => this.setState({ expandedCheckList: !this.state.expandedCheckList })}
 							/>
 						</div>
 					</div>

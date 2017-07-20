@@ -1,206 +1,123 @@
-import React, {Component} from 'react';
+/**
+ * Created by David on 20/7/2017.
+ */
+import React from 'react'
 import {
-  Table,
-  TableBody,
-  TableFooter,
-  TableHeader,
-  TableHeaderColumn,
-  TableRow,
-  TableRowColumn,
+	Table,
+	TableBody,
+	TableHeader,
+	TableHeaderColumn,
+	TableRow,
+	TableRowColumn,
 } from 'material-ui/Table';
-import TextField from 'material-ui/TextField';
-import Toggle from 'material-ui/Toggle';
+import {Card, CardTitle, CardHeader, CardText} from 'material-ui/Card';
+import Badge from 'material-ui/Badge';
+import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
-const styles = {
-  propContainer: {
-    width: 200,
-    overflow: 'hidden',
-    margin: '20px auto 0',
-  },
-  propToggleHeader: {
-    margin: '20px auto 10px',
-  },
+class TableCheckList extends React.Component {
+
+	constructor(props, context) {
+		super(props, context);
+
+		this.state = {
+			fixedHeader: true,
+			fixedFooter: true,
+			stripedRows: false,
+			showRowHover: false,
+			selectable: true,
+			multiSelectable: false,
+			enableSelectAll: false,
+			deselectOnClickaway: true,
+			showCheckboxes: true,
+			height: '300px',
+			// data checklist
+			incomplete: 0,
+			totalSubTask: 0
+		}
+	};
+
+	static getInitialProps({users, checklists, expanded, handleExpandChange}) {
+		users = users ? users : [];
+		return {users, checklists, expanded, handleExpandChange}
+	}
+
+	componentWillReceiveProps(nextProps) {
+		// count task incomplete
+		var countIncom = 0, totalSubTask = 0;
+		nextProps.checklists.map(it => {
+			it.checkItems.map(ci => {
+				ci.state === "incomplete" ? countIncom++ : null
+			});
+			totalSubTask += it.checkItems.length;
+		});
+		this.setState({incomplete: countIncom, totalSubTask: totalSubTask});
+	}
+
+	render() {
+		const {checklists} = this.props;
+
+		return (
+			<div>
+				<Card expanded={this.props.expanded} onExpandChange={this.props.handleExpandChange}>
+					<CardTitle title="Listas de chequeo" subtitle={
+						"Hay " + checklists.length + " checklists. " +
+						this.state.totalSubTask + " elementos en total y " +
+						this.state.incomplete + " pendientes. "
+					}/>
+					<CardHeader
+						subtitle="Mas información"
+						actAsExpander={true}
+						showExpandableButton={true}
+					/>
+
+					<CardText expandable={true}>
+						{
+							(checklists && checklists.length > 0) ?
+								<Table
+									height={this.state.height}
+									fixedHeader={this.state.fixedHeader}
+									fixedFooter={this.state.fixedFooter}
+									selectable={this.state.selectable}
+									multiSelectable={this.state.multiSelectable}
+								>
+									<TableHeader>
+										<TableRow>
+											<TableHeaderColumn>Nombre</TableHeaderColumn>
+											<TableHeaderColumn>Tareas</TableHeaderColumn>
+											<TableHeaderColumn></TableHeaderColumn>
+										</TableRow>
+									</TableHeader>
+									<TableBody>
+
+										{
+											checklists.map((it, index) =>
+												<TableRow key={index}>
+													<TableRowColumn>{it.name}</TableRowColumn>
+													<TableRowColumn>
+														<Badge
+															badgeContent={it.checkItems.length}
+															primary={true}
+														>
+															<NotificationsIcon/>
+														</Badge>
+													</TableRowColumn>
+												</TableRow>
+											)
+										}
+									</TableBody>
+								</Table> : 'No hay usuarios'
+						}
+
+					</CardText>
+				</Card>
+			</div>
+		)
+	}
+}
+
+TableCheckList.childContextTypes = {
+	users: React.PropTypes.array.isRequired,
+	handleExpandChange: React.PropTypes.object.isRequired
 };
 
-const tableData = [
-  {
-    name: 'John Smith',
-    status: 'Employed',
-  },
-  {
-    name: 'Randal White',
-    status: 'Unemployed',
-  },
-  {
-    name: 'Stephanie Sanders',
-    status: 'Employed',
-  },
-  {
-    name: 'Steve Brown',
-    status: 'Employed',
-  },
-  {
-    name: 'Joyce Whitten',
-    status: 'Employed',
-  },
-  {
-    name: 'Samuel Roberts',
-    status: 'Employed',
-  },
-  {
-    name: 'Adam Moore',
-    status: 'Employed',
-  },
-];
-
-/**
- * A more complex example, allowing the table height to be set, and key boolean properties to be toggled.
- */
-export default class TableExampleComplex extends Component {
-  state = {
-    fixedHeader: true,
-    fixedFooter: true,
-    stripedRows: false,
-    showRowHover: false,
-    selectable: true,
-    multiSelectable: false,
-    enableSelectAll: false,
-    deselectOnClickaway: true,
-    showCheckboxes: true,
-    height: '300px',
-  };
-
-  handleToggle = (event, toggled) => {
-    this.setState({
-      [event.target.name]: toggled,
-    });
-  };
-
-  handleChange = (event) => {
-    this.setState({height: event.target.value});
-  };
-
-  render() {
-    return (
-      <div>
-        <Table
-          height={this.state.height}
-          fixedHeader={this.state.fixedHeader}
-          fixedFooter={this.state.fixedFooter}
-          selectable={this.state.selectable}
-          multiSelectable={this.state.multiSelectable}
-        >
-          <TableHeader
-            displaySelectAll={this.state.showCheckboxes}
-            adjustForCheckbox={this.state.showCheckboxes}
-            enableSelectAll={this.state.enableSelectAll}
-          >
-            <TableRow>
-              <TableHeaderColumn colSpan="3" tooltip="Super Header" style={{textAlign: 'center'}}>
-                Super Header
-              </TableHeaderColumn>
-            </TableRow>
-            <TableRow>
-              <TableHeaderColumn tooltip="The ID">ID</TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Name">Name</TableHeaderColumn>
-              <TableHeaderColumn tooltip="The Status">Status</TableHeaderColumn>
-            </TableRow>
-          </TableHeader>
-          <TableBody
-            displayRowCheckbox={this.state.showCheckboxes}
-            deselectOnClickaway={this.state.deselectOnClickaway}
-            showRowHover={this.state.showRowHover}
-            stripedRows={this.state.stripedRows}
-          >
-            {tableData.map( (row, index) => (
-              <TableRow key={index}>
-                <TableRowColumn>{index}</TableRowColumn>
-                <TableRowColumn>{row.name}</TableRowColumn>
-                <TableRowColumn>{row.status}</TableRowColumn>
-              </TableRow>
-              ))}
-          </TableBody>
-          <TableFooter
-            adjustForCheckbox={this.state.showCheckboxes}
-          >
-            <TableRow>
-              <TableRowColumn>ID</TableRowColumn>
-              <TableRowColumn>Name</TableRowColumn>
-              <TableRowColumn>Status</TableRowColumn>
-            </TableRow>
-            <TableRow>
-              <TableRowColumn colSpan="3" style={{textAlign: 'center'}}>
-                Super Footer
-              </TableRowColumn>
-            </TableRow>
-          </TableFooter>
-        </Table>
-
-        <div style={styles.propContainer}>
-          <h3>Table Properties</h3>
-          <TextField
-            floatingLabelText="Table Body Height"
-            defaultValue={this.state.height}
-            onChange={this.handleChange}
-          />
-          <Toggle
-            name="fixedHeader"
-            label="Fixed Header"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.fixedHeader}
-          />
-          <Toggle
-            name="fixedFooter"
-            label="Fixed Footer"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.fixedFooter}
-          />
-          <Toggle
-            name="selectable"
-            label="Selectable"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.selectable}
-          />
-          <Toggle
-            name="multiSelectable"
-            label="Multi-Selectable"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.multiSelectable}
-          />
-          <Toggle
-            name="enableSelectAll"
-            label="Enable Select All"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.enableSelectAll}
-          />
-          <h3 style={styles.propToggleHeader}>TableBody Properties</h3>
-          <Toggle
-            name="deselectOnClickaway"
-            label="Deselect On Clickaway"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.deselectOnClickaway}
-          />
-          <Toggle
-            name="stripedRows"
-            label="Stripe Rows"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.stripedRows}
-          />
-          <Toggle
-            name="showRowHover"
-            label="Show Row Hover"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.showRowHover}
-          />
-          <h3 style={styles.propToggleHeader}>Multiple Properties</h3>
-          <Toggle
-            name="showCheckboxes"
-            label="Show Checkboxes"
-            onToggle={this.handleToggle}
-            defaultToggled={this.state.showCheckboxes}
-          />
-        </div>
-      </div>
-    );
-  }
-}
+export default TableCheckList;
