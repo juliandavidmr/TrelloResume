@@ -22,3 +22,11 @@ export function checklists(data) {
 export function name(data) {
 	return data.name;
 }
+
+export function permission(data) {
+	return data.prefs.permissionLevel;
+}
+
+export function cards(data) {
+	return data.cards;
+}

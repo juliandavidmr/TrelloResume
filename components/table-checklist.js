@@ -2,15 +2,8 @@
  * Created by David on 20/7/2017.
  */
 import React from 'react'
-import {
-	Table,
-	TableBody,
-	TableHeader,
-	TableHeaderColumn,
-	TableRow,
-	TableRowColumn,
-} from 'material-ui/Table';
-import {Card, CardTitle, CardHeader, CardText} from 'material-ui/Card';
+import { Table, TableBody, TableHeader, TableHeaderColumn, TableRow, TableRowColumn } from 'material-ui/Table';
+import { Card, CardTitle, CardHeader, CardText } from 'material-ui/Card';
 import Badge from 'material-ui/Badge';
 import NotificationsIcon from 'material-ui/svg-icons/social/notifications';
 
@@ -36,25 +29,23 @@ class TableCheckList extends React.Component {
 		}
 	};
 
-	static getInitialProps({users, checklists, expanded, handleExpandChange}) {
+	static getInitialProps({ users, checklists, expanded, handleExpandChange }) {
 		users = users ? users : [];
-		return {users, checklists, expanded, handleExpandChange}
+		return { users, checklists, expanded, handleExpandChange }
 	}
 
 	componentWillReceiveProps(nextProps) {
 		// count task incomplete
 		var countIncom = 0, totalSubTask = 0;
 		nextProps.checklists.map(it => {
-			it.checkItems.map(ci => {
-				ci.state === "incomplete" ? countIncom++ : null
-			});
+			it.checkItems.map(ci => ci.state === "incomplete" ? countIncom++ : null);
 			totalSubTask += it.checkItems.length;
 		});
-		this.setState({incomplete: countIncom, totalSubTask: totalSubTask});
+		this.setState({ incomplete: countIncom, totalSubTask: totalSubTask });
 	}
 
 	render() {
-		const {checklists} = this.props;
+		const { checklists } = this.props;
 
 		return (
 			<div>
@@ -63,7 +54,7 @@ class TableCheckList extends React.Component {
 						"Hay " + checklists.length + " checklists. " +
 						this.state.totalSubTask + " elementos en total y " +
 						this.state.incomplete + " pendientes. "
-					}/>
+					} />
 					<CardHeader
 						subtitle="Mas información"
 						actAsExpander={true}
@@ -98,7 +89,7 @@ class TableCheckList extends React.Component {
 															badgeContent={it.checkItems.length}
 															primary={true}
 														>
-															<NotificationsIcon/>
+															<NotificationsIcon />
 														</Badge>
 													</TableRowColumn>
 												</TableRow>

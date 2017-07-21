@@ -154,11 +154,167 @@
   },
   "powerUps": [],
   "dateLastActivity": "2017-07-20T00:38:48.511Z",
-  "dateLastView": "2017-07-20T03:54:18.594Z",
+  "dateLastView": "2017-07-20T21:03:22.057Z",
   "shortUrl": "https://trello.com/b/ICSWXXDT",
   "idTags": [],
   "datePluginDisable": null,
   "actions": [
+    {
+      "id": "597111e29df865262817a3f3",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://google-drive.trello.services/manifest.json",
+          "public": true,
+          "name": "Google Drive",
+          "id": "55a5d916446f517774210006"
+        }
+      },
+      "type": "disablePlugin",
+      "date": "2017-07-20T20:26:10.557Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
+    {
+      "id": "59711117130262bb8b279447",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://giphy.trello.services/manifest.json",
+          "public": true,
+          "name": "Giphy",
+          "id": "568c1415eeaeb62f5a43aa01"
+        }
+      },
+      "type": "enablePlugin",
+      "date": "2017-07-20T20:22:47.438Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
+    {
+      "id": "5971110ffec617122a9d1f84",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://google-drive.trello.services/manifest.json",
+          "public": true,
+          "name": "Google Drive",
+          "id": "55a5d916446f517774210006"
+        }
+      },
+      "type": "enablePlugin",
+      "date": "2017-07-20T20:22:39.175Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
+    {
+      "id": "597110fd07a8cde35363793c",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://api.elegantt.com/embed/trello/manifest.json",
+          "public": true,
+          "name": "Elegantt",
+          "id": "565dafa433bd441cac66be20"
+        }
+      },
+      "type": "disablePlugin",
+      "date": "2017-07-20T20:22:21.224Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
+    {
+      "id": "597110c3fd2ca95b41ff7825",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://api.elegantt.com/embed/trello/manifest.json",
+          "public": true,
+          "name": "Elegantt",
+          "id": "565dafa433bd441cac66be20"
+        }
+      },
+      "type": "enablePlugin",
+      "date": "2017-07-20T20:21:23.551Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
+    {
+      "id": "597110959056ebe565f0ec84",
+      "idMemberCreator": "5512297b72e8aec6ec6412d5",
+      "data": {
+        "board": {
+          "shortLink": "ICSWXXDT",
+          "name": "Equipo De Distancia",
+          "id": "596d3a5c11bb53ce001f6ab1"
+        },
+        "plugin": {
+          "url": "https://calendar.trello.services/manifest.json",
+          "public": true,
+          "name": "Calendar",
+          "id": "55a5d917446f517774210011"
+        }
+      },
+      "type": "enablePlugin",
+      "date": "2017-07-20T20:20:37.230Z",
+      "memberCreator": {
+        "id": "5512297b72e8aec6ec6412d5",
+        "avatarHash": "e8105173f9fbc5482c97c135f5a28c58",
+        "fullName": "Julian David Mo Ra",
+        "initials": "JR",
+        "username": "juliandavidmr"
+      }
+    },
     {
       "id": "596fdc441e4acb7bc6c7355b",
       "idMemberCreator": "5512297b72e8aec6ec6412d5",
@@ -7348,7 +7504,9 @@
       "idPremOrgsAdmin": [],
       "initials": "JR",
       "memberType": "normal",
-      "products": [],
+      "products": [
+        37
+      ],
       "status": "disconnected",
       "url": "https://trello.com/juliandavidmr",
       "username": "juliandavidmr"
