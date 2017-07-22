@@ -1,10 +1,12 @@
 // pages/about.js
-
-
+import Router from 'next/router'
 
 export default () => (
-  <div>    
-    <div className="wrapper">
+  <div>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css" />
+    
+    <div className="animated fadeIn wrapper">
+      <div className="animated tada" onClick={() => Router.push('/')}>Inicio</div>
       <div className="roles">
         <div>
           I am a web developer.
@@ -14,18 +16,18 @@ export default () => (
           I am a game creator.
       </div>
 
-        <div>
-          I am a student.
+        <div>          
+          <img src="https://cloud.githubusercontent.com/assets/13041/19686250/971bf7f8-9ac0-11e6-975c-188defd82df1.png" alt="" height="70px"/>
+          <br/>
       </div>
 
         <div>
           I am an aspiring individual.
       </div>
       </div>
-    </div>
+    </div>    
 
-    <canvas id="canvas"></canvas>
-
+    <canvas id="canvas"></canvas>    
 
     <style jsx>{`
       
