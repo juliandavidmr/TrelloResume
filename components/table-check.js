@@ -1,5 +1,7 @@
 import React from 'react'
 import Toggle from 'material-ui/Toggle'
+import Link from 'next/link'
+import RaisedButton from 'material-ui/RaisedButton';
 
 const styles = {
 	propContainer: {
@@ -10,13 +12,16 @@ const styles = {
 	},
 	propToggleHeader: {
 		margin: '10px auto 10px',
+	},
+	style: {
+		margin: 3,
 	}
 };
 
 export default class extends React.Component {
 
 	render() {
-		const { toggles } = this.props
+		const { toggles, handleReport } = this.props
 
 		return <div style={styles.propContainer}>
 			{
@@ -25,7 +30,7 @@ export default class extends React.Component {
 						return <h4 key={index}>{item.title}</h4>
 					} else {
 						return <Toggle
-						  key={index}
+							key={index}
 							name="fixedHeader"
 							label={item.label}
 							onToggle={item.handle}
@@ -33,7 +38,14 @@ export default class extends React.Component {
 						/>
 					}
 				})
-			}			
+			}
+			<br />
+			<Link prefetch href="/about">
+				<a>
+					<RaisedButton label="Acerca de" fullWidth={true} secondary={true} style={styles.style} />
+				</a>
+			</Link>			
+			<RaisedButton label="Reporte" fullWidth={true} primary={true} style={styles.style} onClick={handleReport} />			
 		</div>
 	}
 }

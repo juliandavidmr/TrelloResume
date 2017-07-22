@@ -12,11 +12,13 @@ import { Toolbar, ToolbarGroup, ToolbarSeparator, ToolbarTitle } from 'material-
 import TableUsers from '../components/table-users'
 import TableCheckList from '../components/table-checklist'
 import TableCards from '../components/table-cards'
-import * as Trello from '../utils/trello'
 import Chips from '../components/chips'
-import LinearProgress from 'material-ui/LinearProgress';
+import LinearProgress from 'material-ui/LinearProgress'
+import Paper from 'material-ui/Paper'
 
-import Paper from 'material-ui/Paper';
+import * as Trello from '../utils/trello'
+import * as Report from '../utils/report'
+
 
 // Make sure react-tap-event-plugin only gets injected once
 // Needed for material-ui
@@ -76,7 +78,7 @@ class Main extends Component {
 		}
 	}
 
-	evaluateState() {
+	evaluateState = () => {		
 		this.setState({
 			users: Trello.members(this.state.inputJson),
 			checklists: Trello.checklists(this.state.inputJson),
@@ -90,7 +92,7 @@ class Main extends Component {
 		event.preventDefault();
 
 		try {
-			this.setState({	loading: true	});
+			this.setState({ loading: true });
 			const file = event.target.files[0];
 			console.log('Event: ', file);
 
@@ -105,8 +107,8 @@ class Main extends Component {
 				});
 
 				// desactive loading
-				setTimeout(function() {
-					this.setState({	loading: false	});
+				setTimeout(function () {
+					this.setState({ loading: false });
 				}.bind(this), 3000);
 
 				this.evaluateState();
@@ -121,6 +123,10 @@ class Main extends Component {
 	};
 
 	handleToggle = () => this.setState({ open: !this.state.open });
+
+	handleReport = () => {
+		Report.generatePDF(this.state.inputJson);
+	}
 
 	render() {
 		return (
@@ -142,15 +148,15 @@ class Main extends Component {
 									{ label: 'Checklist', handle: () => this.setState({ showChecklist: !this.state.showChecklist }) },
 									{ label: 'Tarjetas', handle: () => this.setState({ showCards: !this.state.showCards }) }
 								]}
+								handleReport={this.handleReport}
 							/>
 						</Drawer>
 
 						<AppBar
 							title={"Trello resume " + (this.state.name ? '- ' + this.state.name : '')}
 							iconClassNameRight="muidocs-icon-navigation-expand-more"
-							onClick={this.handleToggle}
-							style={styles.appbar}
-						/>
+							onLeftIconButtonTouchTap={this.handleToggle}
+							style={styles.appbar} />
 
 						<Paper zDepth={3}>
 							<Toolbar>
@@ -177,11 +183,11 @@ class Main extends Component {
 								</ToolbarGroup>
 							</Toolbar>
 						</Paper>
-						
+
 						{
 							this.state.loading ?
 								<center>
-									<LinearProgress mode="indeterminate" color="green" />									
+									<LinearProgress mode="indeterminate" color="green" />
 								</center> : null
 						}
 
