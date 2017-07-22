@@ -78,7 +78,7 @@ class Main extends Component {
 		}
 	}
 
-	evaluateState = () => {		
+	evaluateState = () => {
 		this.setState({
 			users: Trello.members(this.state.inputJson),
 			checklists: Trello.checklists(this.state.inputJson),
@@ -134,7 +134,7 @@ class Main extends Component {
 				<Head>
 					<title>Trello resume 🤔 - {this.state.name}</title>
 					<meta charSet='utf-8' />
-					<meta name='viewport' content='initial-scale=1.0, width=device-width' />
+					<meta name='viewport' content='initial-scale=1.0, width=device-width' />					
 				</Head>
 
 				<MuiThemeProvider muiTheme={getMuiTheme({ ...muiTheme })}>
