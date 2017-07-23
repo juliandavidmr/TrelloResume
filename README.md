@@ -1,8 +1,15 @@
 [![Deploy to now](https://deploy.now.sh/static/button.svg)](https://deploy.now.sh/?repo=https://github.com/zeit/next.js/tree/master/examples/with-material-ui)
 # Trello Resume
 
-Inline-style: 
 ![alt text](./screen.PNG "Dashboard TrelloResume")
+
+## Features
+
+- [x] Generate PDF report
+- [x] Summary of the board (Members, Checklists, Tasks completed ...)
+- [x] Built in ReactJS
+- [x] Google material design style.
+- [x] 100% compatible with NextJS
 
 ## How to use
 
