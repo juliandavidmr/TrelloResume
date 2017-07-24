@@ -30,3 +30,20 @@ export function permission(data) {
 export function cards(data) {
 	return data.cards;
 }
+
+export function list(data) {
+	return data.lists;
+}
+
+
+/**
+ * Get string all labels of a card
+ * @param {[]} card 
+ * @returns {string} 
+ */
+export function getLabels(card) {
+  if (card && card.labels) {
+    return card.labels.map(l => l.name).join(', ')
+  }
+  return ''
+}

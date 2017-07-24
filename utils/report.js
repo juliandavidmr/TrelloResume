@@ -18,17 +18,6 @@ function initialize(name) {
   }]
 }
 
-/**
- * Get string all labels of a card
- * @param {[]} card 
- * @returns {string} 
- */
-function getLabels(card) {
-  if (card && card.labels) {
-    return card.labels.map(l => l.name).join(', ')
-  }
-  return ''
-}
 
 /**
  * Add table resume
@@ -38,7 +27,10 @@ function getLabels(card) {
  * @param {[]} users 
  */
 function addResume(name, cards, checklists, users) {
-  content.push('Resumen total del tablero "' + name + '"');
+  content.push(['Resumen total del tablero "' + name + '". ', {
+    text: 'Generado por Trello Resume.',
+    link: 'https://trelloresume.now.sh/'
+  }]);
   content.push({
     style: 'tableExample',
     table: {
@@ -56,6 +48,12 @@ function addResume(name, cards, checklists, users) {
  */
 function addCards(cards) {
   var body = []
+
+  content.push({
+    text: '\nTarjetas',
+    style: 'header'
+  });
+
   var table = {
     style: 'tableExample',
     table: {
@@ -73,12 +71,131 @@ function addCards(cards) {
       },
       it.name,
       (it.desc || it.desc == "") ? 'Sin descripción' : it.desc,
-      getLabels(it),
+      Trello.getLabels(it),
       (it.idMembers.length == 0) ? 'Ninguno' : it.idMembers.length
     ])
   })
 
   table.table.body = body;
+
+  content.push(table)
+}
+
+/**
+ * add list
+ * @param {[]} lists 
+ */
+function addList(lists) {
+  var list = []
+  list.push({
+    text: '\nListas activas',
+    style: 'header'
+  });
+  list.push({
+    ul: []
+  })
+  lists.map(it => !it.closed ? list[1].ul.push(it.name) : null)
+
+  content.push(list);
+}
+
+/**
+ * add table members
+ * @param {[]} members 
+ */
+function addMembers(members) {
+  content.push({
+    text: '\nPersonas activas en el tablero',
+    style: 'header'
+  });
+
+  var table = {
+    style: 'tableExample',
+    table: {
+      widths: [10, '*', 45, '*', 104],
+      body: [
+        ['#', 'Nombre', 'Iniciales', 'Biografia', 'Nombre de usuario'],
+      ]
+    }
+  };
+
+  members.map((it, index) => table.table.body.push([(index + 1) + '', {
+      text: it.fullName + '',
+      link: it.url
+    },
+    it.initials + '',
+    (!it.bio || it.bio == "") ? 'Sin descripción' : it.bio + '',
+    it.username + ''
+  ]))
+
+  content.push(table)
+}
+
+function addChecklists(checklists) {
+  /*
+  	'Each cell-element can set a rowSpan or colSpan',
+  {
+    style: 'tableExample',
+    color: '#444',
+    table: {
+      widths: ['*', '*', '*'],
+      headerRows: 2,
+      // keepWithHeaderRows: 1,
+      body: [
+        [
+            {text: 'Header 1', style: 'tableHeader', alignment: 'center'}, 
+            {text: 'Header 2', style: 'tableHeader', alignment: 'center'}, 
+            {text: 'Header 3', style: 'tableHeader', alignment: 'center'}],
+        [{
+            rowSpan: 3,
+            text: 'rowSpan set to 3'
+        }, 'Sample value 2', 'Sample value 3'],
+        ['', 'Sample value 2', 'Sample value 3'],
+        ['', 'Sample value XY', 'Sample value 3']
+      ]
+    }
+   */
+  content.push({
+    text: '\nListas de chequeo',
+    style: 'header'
+  });
+
+  var table = {
+    style: 'tableExample',
+    table: {
+      widths: ['*', 300, '*'],
+      headerRows: 2,
+      body: [
+        [{
+            text: 'Listado',
+            alignment: 'center'
+          },
+          {
+            text: 'Acción',
+            alignment: 'center'
+          },
+          {
+            text: 'Estado',
+            alignment: 'center'
+          }
+        ],
+      ]
+    }
+  };
+
+  checklists.map((it, index) => {
+    var sublist = it.checkItems;
+
+    setTimeout(function () {
+      table.table.body.push([{
+        rowSpan: sublist.length,
+        text: it.name
+      }, sublist[0].name, sublist[0].state == 'incomplete' ? 'Pendiente' : 'Completado', ])
+      for (var i = 1; i < sublist.length; i++) {
+        table.table.body.push(['', sublist[i].name, sublist[i].state == 'incomplete' ? 'Pendiente' : 'Completado'])
+      }
+    }, 1);
+  })
 
   content.push(table)
 }
@@ -89,10 +206,14 @@ export function generatePDF(dataTrello) {
 
   const cards = Trello.cards(dataTrello);
   const checklists = Trello.checklists(dataTrello);
-  const users = Trello.members(dataTrello);
+  const members = Trello.members(dataTrello);
+  const list = Trello.list(dataTrello);
 
-  addResume(name, cards, checklists, users)
-  addCards(cards);
+  addResume(name, cards, checklists, members)
+  addCards(cards)
+  addList(list)
+  addMembers(members)
+  addChecklists(checklists)
 
   var docDefinition = {
     content: content,
@@ -118,5 +239,7 @@ export function generatePDF(dataTrello) {
   };
 
   // pdfMake.createPdf(docDefinition).open();
-  pdfMake.createPdf(docDefinition).download(`${name.replace(' ', '')}-${Date.now()}.pdf`);
+  setTimeout(function () {
+    pdfMake.createPdf(docDefinition).download(`${name.replace(' ', '')}-${Date.now()}.pdf`);
+  }, 10);
 }
